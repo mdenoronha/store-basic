@@ -1,0 +1,104 @@
+<footer class="footer">
+  <div class="footer__container">
+    <div class="flexbox-wrap footer__spacing">
+      {% for block in section.blocks %}
+        <nav class="footer__column">
+          <p class="footer__column-heading">{{ block.settings.footer-nav-title }}</p>
+          <ul>
+            {% for menu-item in linklists[block.settings.footer-nav].links %}
+            <li><a href="{{ menu-item.url }}">{{ menu-item.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endfor %}
+  
+      <div class="footer__column--right footer__socials footer__column--inline">
+        {% if section.settings.footer-facebook %}
+        <a class="fab fa-facebook" href="{{ section.settings.footer-facebook.url }}"></a>
+        {% endif %}
+        {% if section.settings.footer-twitter %}
+        <a class="fab fa-twitter" href="{{ section.settings.footer-twitter.url }}"></a>
+        {% endif %}
+        {% if section.settings.footer-youtube %}
+        <a class="fab fa-youtube" href="{{ section.settings.footer-youtube.url }}"></a>
+        {% endif %}
+        {% if section.settings.footer-instagram %}
+        <a class="fab fa-instagram" href="{{ section.settings.footer-instagram.url }}"></a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="flexbox-wrap footer__end-text">
+      <p class="inline footer__column"><img class="footer__flag" src="https://cdn.countryflags.com/thumbs/united-kingdom/flag-800.png">  United Kingdom</p>
+      <p class="inline footer__column">{{ 'now' | date: "%Y" }} {{ shop.name }} All Rights Reserved</p>
+      <nav class="inline footer__column--right footer__column--inline">
+        <ul>
+          {% for menu-item in linklists[section.settings.footer-nav-small].links %}
+            <li><a href="{{ menu-item.url }}">{{ menu-item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+
+{
+  "name": "Footer",
+  "class": "footer-block",
+  "blocks": [
+    {
+      "type": "navigation",
+      "name": "Footer Navigation",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "footer-nav-title",
+          "label": "Footer navigation title"
+        },
+        {
+          "type": "link_list",
+          "id": "footer-nav",
+          "info": "Menu to use in footer",
+          "label": "Footer navigation"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "footer-nav-small",
+      "label": "Final footer nav",
+      "info": "Footer links to feature at the bottom of the page"
+    },
+    {
+      "type": "header",
+      "content": "Social links for footer"
+    },
+    {
+      "type": "url",
+      "id": "footer-facebook",
+      "label": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "footer-twitter",
+      "label": "Twitter"
+    },
+    {
+      "type": "url",
+      "id": "footer-youtube",
+      "label": "YouTube"
+    },
+    {
+      "type": "url",
+      "id": "footer-instagram",
+      "label": "Instagram"
+    }
+  ]
+}
+
+
+{% endschema %}

@@ -1,0 +1,59 @@
+<div class="header__image-container">
+	<div class="header__image">	
+		<div class="header__image-text-container">
+			{% if section.settings.header-image-text != '' %}
+				<h1>{{ section.settings.header-image-text }}</h1>
+			{% endif %}
+			{% if section.settings.header-image-button-text != '' %}
+				<a class="standard-button" href="{{ section.settings.header-image-button-link }}">
+					{{ section.settings.header-image-button-text }}
+				</a>
+			{% endif %}
+		</div>
+	
+	</div>
+</div>
+
+{% style %}
+	{% if section.settings.header-image-image %}
+	#shopify-section-{{ section.id }} .header__image {
+		background-image: url({{ section.settings.header-image-image | img_url: '3000x' }})
+	}	
+	{% endif %}
+{% endstyle %}
+
+{% schema %}
+{
+	"name": "Banner Image",
+	"class": "banner",
+	"settings": [
+		{
+			"type": "image_picker",
+			"id": "header-image-image",
+			"info": "A 2:1 image is recommended",
+			"label": "Header image"
+		},
+		{
+			"type": "text",
+			"id": "header-image-text",
+			"label": "Header image title"
+		},
+		{
+			"type": "text",
+			"id": "header-image-button-text",
+			"label": "Header image button text"
+		},
+		{
+			"type": "url",
+			"id": "header-image-button-link",
+			"label": "Header image button link"
+		}
+	],
+	"presets": [
+		{
+			"name": "Banner Image",
+			"category": "Banner"
+		}
+	]
+}
+{% endschema %}

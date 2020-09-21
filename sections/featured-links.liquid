@@ -1,0 +1,106 @@
+{% case section.blocks.size %}
+  {% when 1 %}
+     {% assign blocks-count = 'd-one-whole m-one-whole' %}
+     {% assign image-width = 'height: 80vw;' %}
+  {% when 2 %}
+    {% assign blocks-count = 'd-one-half m-one-whole' %}
+    {% assign image-width = 'height: 40vw;' %}
+  {% when 3 %}
+    {% assign blocks-count = 'd-one-third m-one-whole' %}
+    {% assign image-width = 'height: 25vw;' %}
+  {% else %}
+  	{% assign blocks-count = 'd-one-fourth m-one-whole' %}
+  	{% assign image-width = 'height: 16vw;' %}
+{% endcase %}
+
+<div class="standard-block">
+	<div class="standard-block__title">
+		<h4>{{ section.settings.title }}</h4>
+	</div>
+	<div class="featured-links__container flexbox-wrap">
+		{% for featured-link in section.blocks %}
+			<a class="featured-links__links {{ blocks-count }}" href="{{ featured-link.settings.link }}">
+				<div class="featured-links__image featured-links__image--{{forloop.index}}">
+					<p>{{ featured-link.settings.text }}</p>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+</div>
+
+{% style %}
+		
+	#shopify-section-{{ section.id }} .standard-block {
+		background-color: {{ section.settings.background-color}};
+	}
+
+	#shopify-section-{{ section.id }} .featured-links__image { 
+		{{image-width}}
+	}
+
+	{% for featured-link in section.blocks %}
+		{% if featured-link.settings.image %}
+			#shopify-section-{{ section.id }} .featured-links__image--{{forloop.index}} {
+				background-image: url({{ featured-link.settings.image | img_url: '2000x' }});
+			}
+		{% endif %}
+
+		#shopify-section-{{ section.id }} .featured-links__image--{{forloop.index}} p {
+			color: {{ featured-link.settings.color }}
+		}
+	{% endfor %}
+{% endstyle %}
+
+{% schema %}
+	{
+		"name": "Featured Links",
+		"class": "featured-links",
+		"settings": [
+			{
+				"type": "header",
+				"content": "Featured links"
+			},
+			{
+				"type": "text",
+				"id": "title",
+				"label": "featured links title"
+			},
+			{
+				"type": "color",
+				"id": "background-color",
+				"label": "Featured links background color"
+			}
+		],
+		"blocks": [{
+			"type": "image",
+			"name": "Featured link image",
+			"limit": 4,
+			"settings": [{
+					"type": "url",
+					"id": "link",
+					"label": "Featured link page"
+				},
+				{
+					"type": "image_picker",
+					"id": "image",
+					"info": "A 1:1 image is recommended",
+					"label": "Featured link image"
+				},
+				{
+					"type": "text",
+					"id": "text",
+					"label": "Featured link text"
+				},
+				{
+					"type": "color",
+					"id": "color",
+					"label": "Featured link color"
+				}
+			]
+		}],
+		"presets": [{
+			"name": "Featured links",
+			"category": "Products"
+		}]
+	}
+{% endschema %}

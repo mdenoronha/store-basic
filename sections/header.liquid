@@ -1,0 +1,74 @@
+<header data-section-id="{{ section.id }}" id="shopify-section-header" class="{% if settings.header-sticky %}shopify-section-header--fixed{% endif %}">
+	<div class="header">
+		<div id="mobile_menu" class="header-burger d-hide">
+			{% include 'icon-menu' %}
+		</div>
+		<div class="header__logo">
+			<a href="/">
+				{% if section.settings.header-logo %}
+					<img class="header__logo-image" src="{{ section.settings.header-logo | img_url: '1000x' }}">
+				{% endif %}
+			</a>
+		</div>
+		<nav class="header__nav">
+			<ul class="header__menu">
+				{% for menu-item in linklists[section.settings.header-nav].links %}
+					<li class="header__menu-item"><a href="{{ menu-item.url }}" class="header__menu-li">{{ menu-item.title }}</a></li>
+				{% endfor %}
+			</ul>
+			<div class="header__icons">
+				<div class="header__icon-container">
+					<form class="header__search" method="get" action="/search">
+					    <input type="text" name="search" placeholder="Search" />
+					</form>
+					<a href="/account/login"><i class="far fa-user"></i></a>
+					<a href="/cart"><i class="fas fa-shopping-bag"></i></a>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div class="callout">
+		<p class="callout__text">{{ section.settings.header-callout-text }} <sub><a class="callout__link" href="{{ section.settings.header-callout-link }}">{{ section.settings.header-callout-link-text }}</a></sub></p>
+	</div>
+</header>
+
+
+
+{% schema %}
+{
+	"name": "Header",
+	"class": "header-block",
+	"settings": [{
+			"type": "image_picker",
+			"id": "header-logo",
+			"info": "A 5:1 image is recommended",
+			"label": "Header logo"
+		},
+		{
+			"type": "link_list",
+			"id": "header-nav",
+			"info": "Menu to use in header",
+			"label": "Header navigation"
+		},
+		{
+			"type": "header",
+			"content": "Callout"
+		},
+		{
+			"type": "text",
+			"id": "header-callout-text",
+			"label": "Callout text"
+		},
+		{
+			"type": "text",
+			"id": "header-callout-link-text",
+			"label": "Callout link text"
+		},
+		{
+			"type": "url",
+			"id": "header-callout-link",
+			"label": "Callout link"
+		}
+	]
+}
+{% endschema %}

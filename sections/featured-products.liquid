@@ -1,0 +1,102 @@
+{% case section.blocks.size %}
+  {% when 3 %}
+  	 {% assign product-sizing = 'd-one-third m-one-half' %}
+  {% when 4 %}
+  	{% assign product-sizing = 'd-one-fourth m-one-half' %}
+  {% when 5 %}
+  	{% assign product-sizing = 'd-one-fifth m-one-half' %}
+{% endcase %}
+
+<div class="standard-block">
+	<div class="standard-block__title">
+      {% if section.settings.featured-collection-title != '' %}
+	    <h4>{{ section.settings.featured-collection-title | upcase }}</h4>
+      {% endif %}
+      	{% if section.settings.featured-collection-url-text != '' %}
+		<span class="standard-block__right-link"><a href="{{ section.settings.featured-collection-url }}">{{ section.settings.featured-collection-url-text }}</a></span>
+	  {% endif %}
+  	</div>
+
+	<div class="flexbox-wrap flex-justify-evenly">
+		{% for block in section.blocks %}
+			{% assign product = all_products[block.settings.featured-product] %}
+			{% if product.available and block.settings.featured-product != '' %}
+			  <div class="{{ product-sizing }} featured-products">
+			  		{% include 'overlay-cart-form' %}
+			  	  <a href="{{ product.url }}"><img class="featured-collection__image" src="{{ product.featured_image | img_url: '2000x' }}"></a>
+			  	  <div class="featured-products__product-info">
+			  	  	<a href="{{ product.url }}">
+			  	  		<p class="product-info__rating">
+			  	  		{% if block.settings.rating %}
+			  	  			{% assign rating = block.settings.rating %}
+			  	  			{% for star in (1..rating) %}★{% endfor %}
+			  	  		{% endif %}
+			  	  		</p>
+			  	  		<p class="product-info__title">{{ product.title }}</p>
+			  	  		<p class="product-info__vendor">{{ product.vendor }}</p>
+			  	  		<p class="product-info__price">{% if product.compare_at_price_varies %}From {% endif %}{{ product.price | money }}</p>
+			  	  	</a>
+			  	  </div>
+			  </div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+
+
+{% schema %}
+	{
+		"name": "Featured Products",
+		"class": "featured-product-collection",
+		"settings": [
+			{
+				"type": "header",
+				"content": "Featured Products"
+			},
+			{
+				"type": "url",
+				"id": "featured-collection-url",
+				"label": "Link"
+			},
+			{
+				"type": "text",
+				"id": "featured-collection-url-text",
+				"label": "Link text",
+				"default": "SHOP NOW"
+			},
+			{
+				"type": "text",
+				"id": "featured-collection-title",
+				"label": "Section Title"
+			}
+		],
+		"blocks": [{
+			"type": "products",
+			"name": "Featured Products",
+			"limit": 5,
+			"settings": [
+				{
+					"type": "product",
+					"id": "featured-product",
+					"label": "Products",
+					"info": "Choose which products features on the homepage"
+				},
+				{
+					"type": "range",
+					"min": 1,
+					"max": 5,
+					"default": 5,
+					"id": "rating",
+					"label": "Product Rating",
+					"info": "Enter product star rating"
+				}
+			]
+		}],
+		"presets": [
+			{
+				"name": "Featured collection",
+				"category": "Products"
+			}
+		]
+	}
+{% endschema %}

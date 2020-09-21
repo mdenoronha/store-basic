@@ -1,0 +1,13 @@
+
+<form class="featured-products__form" action="/cart/add"  method="post"> 
+
+  <select class="featured-products__select" name="id" />
+  	<option value="" disabled selected>Select Size...</option>
+  	{% for variant in product.variants %}
+  		<option {% unless variant.available %}disabled{% endunless %} value="{{ variant.id }}">{% if variant.title == 'Default Title' %}Onesize{% else %}{{ variant.title }}{% endif %}</option>
+  	{% endfor %}
+  </select>
+
+  <input class="featured-product__submit" type="submit" value="ADD" disabled />
+
+</form>
